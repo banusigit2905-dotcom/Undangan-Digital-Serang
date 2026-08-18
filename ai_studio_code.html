@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Digital Serang - Buat, Bagikan, Rayakan</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-wrapper">
+            <div class="logo">UNDANGAN DIGITAL <span>SERANG</span></div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')">Beranda</a></li>
+                <li class="auth-only"><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+                <li id="login-nav"><a href="#" onclick="showSection('login')" class="btn-outline">Login</a></li>
+                <li id="logout-nav" style="display:none"><a href="#" onclick="handleLogout()" class="btn-outline">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app-content">
+        
+        <!-- SECTION 1: LANDING PAGE -->
+        <section id="home" class="active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Buat Undangan Digital Elegan dalam Hitungan Menit</h1>
+                    <p>Platform profesional untuk undangan pernikahan, khitanan, dan acara spesial Anda di Serang dan sekitarnya.</p>
+                    <div class="hero-btns">
+                        <button class="btn-primary" onclick="checkAuthAndStart()">Buat Undangan Sekarang</button>
+                        <button class="btn-secondary">Lihat Contoh</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features container">
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Tampilan optimal di semua perangkat smartphone.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-magic"></i>
+                    <h3>Desain Elegan</h3>
+                    <p>Berbagai pilihan template premium dan modern.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Mudah Dibagikan</h3>
+                    <p>Kirim link via WhatsApp hanya dengan satu klik.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: LOGIN / REGISTER -->
+        <section id="login" class="container">
+            <div class="auth-box">
+                <h2 id="auth-title">Masuk ke Akun</h2>
+                <form id="auth-form">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="submit" class="btn-primary w-100">Masuk</button>
+                </form>
+                <p onclick="toggleAuthMode()" id="auth-toggle">Belum punya akun? Daftar di sini</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DASHBOARD -->
+        <section id="dashboard" class="container">
+            <div class="dashboard-header">
+                <h2>Halo, <span id="user-name">Pengguna</span>!</h2>
+                <button class="btn-primary" onclick="showSection('form-builder')">+ Buat Undangan Baru</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card"><h3>0</h3><p>Undangan Aktif</p></div>
+                <div class="stat-card"><h3>0</h3><p>Total RSVP</p></div>
+            </div>
+            <h3>Undangan Saya</h3>
+            <div id="invitation-list" class="empty-state">
+                <p>Belum ada undangan. Mulai buat sekarang!</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4: FORM BUILDER (Multi-step) -->
+        <section id="form-builder" class="container">
+            <div class="form-progress">
+                <div class="step active" id="step1-dot">1</div>
+                <div class="step" id="step2-dot">2</div>
+                <div class="step" id="step3-dot">3</div>
+            </div>
+
+            <form id="invite-form">
+                <!-- Step 1: Data Acara -->
+                <div class="form-step active" id="step1">
+                    <h3>Data Acara</h3>
+                    <label>Jenis Acara</label>
+                    <select id="event_type">
+                        <option value="pernikahan">Pernikahan</option>
+                        <option value="khitanan">Khitanan</option>
+                        <option value="ulangtahun">Ulang Tahun</option>
+                    </select>
+                    <label>Judul Undangan (Contoh: The Wedding of Budi & Ani)</label>
+                    <input type="text" id="event_title" required>
+                    <label>Nama Mempelai / Penyelenggara</label>
+                    <input type="text" id="event_owner" required>
+                    <button type="button" class="btn-primary" onclick="nextStep(2)">Lanjut</button>
+                </div>
+
+                <!-- Step 2: Waktu & Lokasi -->
+                <div class="form-step" id="step2">
+                    <h3>Waktu & Lokasi</h3>
+                    <label>Tanggal Acara</label>
+                    <input type="date" id="event_date">
+                    <label>Waktu (Mulai)</label>
+                    <input type="time" id="event_time">
+                    <label>Alamat Lengkap</label>
+                    <textarea id="event_address"></textarea>
+                    <label>Link Google Maps</label>
+                    <input type="url" id="event_maps" placeholder="https://goo.gl/maps/...">
+                    <div class="btn-group">
+                        <button type="button" class="btn-secondary" onclick="nextStep(1)">Kembali</button>
+                        <button type="button" class="btn-primary" onclick="nextStep(3)">Lanjut</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Galeri & Musik -->
+                <div class="form-step" id="step3">
+                    <h3>Detail Tambahan</h3>
+                    <label>Pesan Pembuka</label>
+                    <textarea id="event_message"></textarea>
+                    <label>Pilih Musik</label>
+                    <select id="event_music">
+                        <option value="classic">Instrumental Klasik</option>
+                        <option value="romantic">Romantic Piano</option>
+                        <option value="none">Tanpa Musik</option>
+                    </select>
+                    <div class="btn-group">
+                        <button type="button" class="btn-secondary" onclick="nextStep(2)">Kembali</button>
+                        <button type="button" class="btn-primary" onclick="generatePreview()">Lihat Preview</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECTION 5: LIVE PREVIEW (Mobile Frame) -->
+        <section id="preview-section" class="container">
+            <div class="preview-controls">
+                <button class="btn-secondary" onclick="showSection('form-builder')">Edit Data</button>
+                <button class="btn-primary" onclick="publishInvite()">Publikasikan Undangan</button>
+            </div>
+            <div class="mobile-frame">
+                <div id="invitation-render">
+                    <!-- Hasil render undangan akan masuk di sini -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 <strong>UNDANGAN DIGITAL SERANG</strong>. Buat, Bagikan, Rayakan.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
